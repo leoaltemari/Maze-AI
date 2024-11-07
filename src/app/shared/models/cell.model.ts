@@ -1,20 +1,47 @@
 export enum CellType {
-  Source = 'source',
-  Target = 'target',
-  Empty = 'empty',
-  Wall = 'wall',
-  Path = 'path',
-  Expanded = 'expanded',
+  Source,
+  Target,
+  Wall,
+  Empty,
+  Path,
+  Expanded,
+}
+
+export enum CellIcon {
+  Source = '#',
+  Target = '&',
+  Wall = '-',
+  Empty = '*',
+  Path = '@',
+  Expanded = '+',
+}
+
+export enum CellActions {
+  Source,
+  Target,
+  Wall,
+}
+
+export interface Position {
+  x: number;
+  y: number;
 }
 
 export class Cell {
-  x: number | undefined;
-  y: number | undefined;
-  type: CellType;
+  position: Position = { x: 0, y: 0 };
+  type: CellType = CellType.Empty;
 
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-    this.type = CellType.Empty;
+  constructor(x: number, y: number, icon: CellIcon = CellIcon.Empty) {
+    this.position = { x, y };
+
+    const iconToCellTypeMap = {
+      [CellIcon.Source]: CellType.Source,
+      [CellIcon.Target]: CellType.Target,
+      [CellIcon.Wall]: CellType.Wall,
+      [CellIcon.Empty]: CellType.Empty,
+      [CellIcon.Path]: CellType.Path,
+      [CellIcon.Expanded]: CellType.Expanded,
+    };
+    this.type = iconToCellTypeMap[icon];
   }
 }

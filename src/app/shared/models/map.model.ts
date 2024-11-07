@@ -1,4 +1,4 @@
-import { Cell } from "./cell.model";
+import { Cell } from './cell.model';
 
 export interface MapRow {
   id: string;
@@ -8,6 +8,6 @@ export interface MapRow {
   }[];
 }
 
-export interface Map {
+export interface IMap {
   rows: MapRow[];
 }
