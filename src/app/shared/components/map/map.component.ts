@@ -9,13 +9,13 @@ import { Cell, Map, MapRow } from '@models';
   standalone: true,
   imports: [CommonModule, CellComponent],
   templateUrl: './map.component.html',
-  styleUrl: './map.component.scss'
+  styleUrl: './map.component.scss',
 })
 export class MapComponent implements OnInit {
   @Input() dimension = 5;
 
   mapCells: Map = {
-    rows: []
+    rows: [],
   };
 
   ngOnInit(): void {
@@ -27,10 +27,13 @@ export class MapComponent implements OnInit {
       const row: MapRow = {
         id: i.toString(),
         cells: [],
-      }
+      };
 
       for (let j = 0; j < this.dimension; j++) {
-        row.cells.push({id: i.toString() + j.toString(), cell: new Cell(i, j)});
+        row.cells.push({
+          id: i.toString() + j.toString(),
+          cell: new Cell(i, j),
+        });
       }
 
       this.mapCells.rows?.push(row);
