@@ -1,0 +1,25 @@
+@import '../variables/colors.scss';
+@import '../utils/background.scss';
+
+.btn {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 750;
+  line-height: 20px;
+  letter-spacing: -2%;
+  text-align: center;
+}
+
+.btn-primary {
+  @extend .btn;
+  @extend .bg-blue;
+  @extend .text-white;
+}
+
+.btn-secondary {
+  @extend .btn;
+  @extend .text-grey;
+  background-color: rgba(255, 255, 255, 0.80);
+}
