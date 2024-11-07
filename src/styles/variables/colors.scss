@@ -1,0 +1,19 @@
+
+$dark-grey:   #222C37;
+$grey:        #2E3E4B;
+$grey-2:      #26323D;
+$blue:        #0478FA;
+$green:       #14FA00;
+$light-green: #6CFF9E;
+$red:         #FA504E;
+
+// Add colors on the list to create automatically background color an text colors
+// Classes will be created as 'bg-dark-gey' and 'text-dark-grey' for example.
+$colors-list:
+  $dark-grey 'dark-grey',
+  $grey 'grey',
+  $grey-2 'grey-2',
+  $blue 'blue',
+  $green 'grenn',
+  $light-green 'light-green',
+  $red 'red';

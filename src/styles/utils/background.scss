@@ -1,0 +1,11 @@
+@import '../variables/colors.scss';
+
+@each $color, $color-name in $colors-list {
+  .bg-#{$color-name} {
+    background-color: $color;
+  }
+
+  .text-#{$color-name} {
+    color: $color;
+  }
+}
