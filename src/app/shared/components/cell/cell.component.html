@@ -1,12 +1,12 @@
 <div
   class="cell"
-  title="{{x}} , {{y}}"
+  title="{{ x }} , {{ y }}"
   [ngClass]="{
     'bg-green': type === cellTypeEnum.Source,
     'bg-red': type === cellTypeEnum.Target,
     'bg-light-green': type === cellTypeEnum.Expanded,
     'bg-grey-3': type === cellTypeEnum.Wall,
     'bg-blue': type === cellTypeEnum.Path,
-    'bg-grey': type === cellTypeEnum.Empty
+    'bg-grey': type === cellTypeEnum.Empty,
   }"
 ></div>
