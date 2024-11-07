@@ -1,0 +1,9 @@
+<main class="p-4">
+  @for (row of mapCells.rows; track row.id) {
+    <div class="d-flex">
+      @for (rowCells of row.cells; track rowCells.id) {
+        <app-cell [type]="rowCells.cell.type" [x]="rowCells.cell.x" [y]="rowCells.cell.y"></app-cell>
+      }
+    </div>
+  }
+</main>
