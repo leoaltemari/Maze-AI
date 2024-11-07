@@ -1,6 +1,6 @@
 <div
   class="cell"
-  title="{{ x }} , {{ y }}"
+  title="{{ position.x }} , {{ position.y }}"
   [ngClass]="{
     'bg-green': type === cellTypeEnum.Source,
     'bg-red': type === cellTypeEnum.Target,
@@ -9,4 +9,5 @@
     'bg-blue': type === cellTypeEnum.Path,
     'bg-grey': type === cellTypeEnum.Empty,
   }"
+  (click)="onCellClick()"
 ></div>
