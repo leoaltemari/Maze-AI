@@ -9,5 +9,5 @@
     'bg-blue': type === cellTypeEnum.Path,
     'bg-grey': type === cellTypeEnum.Empty,
   }"
-  (click)="onCellClick()"
+  (click)="cellOnClick.emit(position)"
 ></div>
