@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Signal, signal } from '@angular/core';
 
 import { CellComponent } from '@components/cell/cell.component';
-import { MapInteractionService, MapBuilderService } from '@services';
-import { IMap } from '@models';
+import { IMap, Position } from '@models';
+import { MapBuilderService } from '@services';
+
 
 @Component({
   selector: 'app-map',
@@ -16,21 +17,24 @@ export class MapComponent implements OnInit {
   /**
    * Dimension sets the number of cells the map will have on the rows and columns.
    * A dimension of 5 means that the map will have 5 rows with 5 cells each (total of 25 cells),
-   * as a matrix 5x5.
+   * as a matrix [5]x[5].
    * */
-  @Input() dimension = 5;
+  @Input() dimension = 32;
 
-  mapCells: IMap | undefined;
+  mapCells: Signal<IMap> = signal([]);
 
-  constructor(
-    private readonly mapInteractionService: MapInteractionService,
-    private readonly mapBuilderService: MapBuilderService,
-  ) {}
+  constructor(private readonly mapBuilderService: MapBuilderService) {}
 
   ngOnInit(): void {
-    this.mapBuilderService.buildInitialMapMatrix(this.dimension);
-    this.mapBuilderService.buildMapObjectFromMatrix();
+    this.startMap();
+  }
 
-    this.mapCells = this.mapBuilderService.mapCells;
+  private startMap(): void {
+    this.mapBuilderService.buildInitialMap(this.dimension);
+    this.mapCells = this.mapBuilderService.mapMatrixAsSignal;
+  }
+
+  changeCellType(position: Position): void {
+    this.mapBuilderService.changeCellTypeOnAction(position);
   }
 }

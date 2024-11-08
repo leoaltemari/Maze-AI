@@ -1,15 +1,16 @@
 <main class="p-4">
   <!-- Rows -->
-  @for (row of mapCells?.rows; track row.id) {
+  @for (row of mapCells(); track $index) {
     <div class="d-flex">
       <!-- Columns -->
-      @for (rowCells of row.cells; track rowCells.id) {
+      @for (cell of row; track $index) {
         <app-cell
-          [type]="rowCells.cell.type"
+          [type]="cell.type"
           [position]="{
-            x: rowCells.cell.position.x,
-            y: rowCells.cell.position.y,
+            x: cell.position.x,
+            y: cell.position.y,
           }"
+          (cellOnClick)="changeCellType($event)"
         ></app-cell>
       }
     </div>
