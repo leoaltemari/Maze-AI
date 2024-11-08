@@ -3,7 +3,6 @@ import { Injectable, Signal, signal } from '@angular/core';
 import { Cell, CellType, IMap, Position, TurnCellInto } from '@models';
 import { MapInteractionService } from '@services';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -28,7 +27,7 @@ export class MapBuilderService {
     this._mapMatrix.set(cells);
   }
 
-  private mapDimention = 32;
+  private mapDimension = 32;
   private sourcePos: Position | undefined;
   private targetPos: Position | undefined;
 
@@ -39,12 +38,12 @@ export class MapBuilderService {
    * @param dimension number of rows and columns that the map will have (always a quadratic form matrix).
    */
   buildInitialMap(dimension: number): void {
-    this.mapDimention = dimension;
+    this.mapDimension = dimension;
     const map: IMap = [];
 
-    for (let i = 0; i < this.mapDimention; i++) {
+    for (let i = 0; i < this.mapDimension; i++) {
       map.push([]);
-      for (let j = 0; j < this.mapDimention; j++) {
+      for (let j = 0; j < this.mapDimension; j++) {
         map[i].push(new Cell(i, j));
       }
     }
@@ -53,8 +52,8 @@ export class MapBuilderService {
   }
 
   clearAllMapWalls(): void {
-    for (let i = 0; i < this.mapDimention; i++) {
-      for (let j = 0; j < this.mapDimention; j++) {
+    for (let i = 0; i < this.mapDimension; i++) {
+      for (let j = 0; j < this.mapDimension; j++) {
         const cell = this._mapMatrix()[i][j];
 
         if (cell.type === CellType.Wall) {
