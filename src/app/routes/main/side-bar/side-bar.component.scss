@@ -1,0 +1,96 @@
+$box-color: #2D2F39;
+
+aside {
+  position: fixed;
+  width: 208px;
+  height: 100vh;
+
+  .ai-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  input[type="radio"] {
+    height: 16px;
+    width: 16px;
+  }
+}
+
+
+hr {
+  background-color: $box-color;
+  height: 3px;
+  border: 0;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.item-box {
+  border-radius: 5px;
+}
+
+.algo-title {
+  @extend .item-box;
+  padding: 10px 12px;
+  cursor: pointer;
+  height: 20px;
+
+  .algo-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .arrow-icon {
+    width: 16px;
+    height: 16px;
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+
+    &.closed {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+.algo-list {
+  list-style-type: none;
+  position: relative;
+  padding-inline-start: 40px;
+  max-height: 400px;
+  overflow: hidden;
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+
+  &.hide {
+    max-height: 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    left: 20px;
+    top: -26px;
+    margin-right: 4px;
+    border-left: 3px solid $box-color;
+  }
+
+  li {
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: -20px;
+      height: 20px;
+      width: 20px;
+      border: 3px solid $box-color;
+      border-bottom-left-radius: 15px;
+      border-right: none;
+      border-top: none;
+    }
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+
+  .selected {  @extend .item-box; }
+}

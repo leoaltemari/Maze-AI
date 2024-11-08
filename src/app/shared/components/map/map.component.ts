@@ -5,11 +5,13 @@ import { CellComponent } from '@components/cell/cell.component';
 import { IMap, Position } from '@models';
 import { MapBuilderService } from '@services';
 
-
 @Component({
   selector: 'app-map',
   standalone: true,
   imports: [CommonModule, CellComponent],
+  host: {
+    class: 'w-100 h-100 bg-grey-3 centered-items',
+  },
   templateUrl: './map.component.html',
   styleUrl: './map.component.scss',
 })
