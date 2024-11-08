@@ -1,4 +1,5 @@
 $spacings:
+  '0' 0px,
   '1' 4px,
   '2' 8px,
   '3' 16px,
@@ -19,5 +20,23 @@ $directions:
   @each $dir, $dir-name in $directions {
     .m#{$dir}-#{$order} { margin-#{$dir-name}: $size; }
     .p#{$dir}-#{$order} { padding-#{$dir-name}: $size; }
+
+    .my-#{$order} {
+      margin-top: $size;
+      margin-bottom: $size;
+    }
+    .mx-#{$order} {
+      margin-left: $size;
+      margin-right: $size;
+    }
+
+    .py-#{$order} {
+      padding-top: $size;
+      padding-bottom: $size;
+    }
+    .px-#{$order} {
+      padding-left: $size;
+      padding-right: $size;
+    }
   }
 }

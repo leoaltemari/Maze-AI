@@ -10,16 +10,30 @@
   line-height: 20px;
   letter-spacing: -2%;
   text-align: center;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .btn-primary {
   @extend .btn;
   @extend .bg-blue;
   @extend .text-white;
+
+  &:hover {
+    background-color: darken($blue, 15%);
+  }
 }
 
 .btn-secondary {
   @extend .btn;
-  @extend .text-grey;
+  @extend .text-grey-2;
   background-color: rgba(255, 255, 255, 0.80);
+
+  &:hover {
+    background-color: darken(rgba(255, 255, 255, 0.80), 15%);
+  }
 }
