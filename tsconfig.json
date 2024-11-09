@@ -30,6 +30,7 @@
       "@services": ["app/core/services/index"],
       "@constants": ["app/shared/constants/index"],
       "@utils": ["app/shared/utils/index"],
+      "@search-algorithms": ["app/core/search-algorithms/index"],
     }
   },
   "angularCompilerOptions": {

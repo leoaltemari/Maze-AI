@@ -28,7 +28,7 @@ export interface Position {
   y: number;
 }
 
-const iconToCellTypeMap = {
+export const iconToCellTypeMap = {
   [CellIcon.Source]: CellType.Source,
   [CellIcon.Target]: CellType.Target,
   [CellIcon.Wall]: CellType.Wall,
@@ -37,7 +37,7 @@ const iconToCellTypeMap = {
   [CellIcon.Expanded]: CellType.Expanded,
 };
 
-const cellTypeToIconMap = {
+export const cellTypeToIconMap = {
   [CellType.Source]: CellIcon.Source,
   [CellType.Target]: CellIcon.Target,
   [CellType.Wall]: CellIcon.Wall,
@@ -47,14 +47,38 @@ const cellTypeToIconMap = {
 };
 
 export class Cell {
+  /** Strin icon that represents the type of cell on the map */
   private _icon: CellIcon = CellIcon.Empty;
+  /** Stores the type of the cell, if it is an empty cell, a source cell, etc. */
   private _type: CellType = CellType.Empty;
-  private _position: Position = { x: 0, y: 0 };
+  /** Current position that the cell has on the map */
 
-  constructor(x: number, y: number, icon: CellIcon = CellIcon.Empty) {
+  private _position: Position;
+
+  /** Value that represents the _heuristic() value from the current cell to the target cell */
+  costFromSource: number;
+  /** Euclidean distance from the current cell to target */
+  distanceToTarget: number;
+  totalCost: number = 0;
+
+  /** Stores the cell that the was being visited before the current cell. It will stores null
+   * if it is the first cell being visited on the map */
+  parent: Cell | null;
+
+  constructor(
+    { x, y }: Position,
+    g = 0,
+    h = 0,
+    parent: Cell | null = null,
+    type: CellType = CellType.Empty,
+  ) {
     this._position = { x, y };
-    this._icon = icon;
-    this._type = iconToCellTypeMap[icon];
+    this._icon = cellTypeToIconMap[type];
+    this._type = type;
+    this.costFromSource = g;
+    this.distanceToTarget = h;
+    this.totalCost = g + h;
+    this.parent = parent;
   }
 
   get position() {
@@ -71,5 +95,8 @@ export class Cell {
 
   set icon(icon: CellIcon) {
     this._icon = icon;
+  }
+  get icon(): CellIcon {
+    return this._icon;
   }
 }

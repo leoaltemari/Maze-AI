@@ -1,6 +1,5 @@
 import { Position } from '@models';
 
-
 export const equalPositions = (
   pos1: Position | undefined,
   pos2: Position | undefined,
