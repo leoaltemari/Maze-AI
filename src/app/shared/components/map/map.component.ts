@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, Signal, signal } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 
 import { CellComponent } from '@components/cell/cell.component';
-import { IMap, Position } from '@models';
+import { Position } from '@models';
 import { MapBuilderService } from '@services';
 
 @Component({
@@ -13,7 +13,6 @@ import { MapBuilderService } from '@services';
     class: 'w-100 h-100 bg-grey-3 centered-items',
   },
   templateUrl: './map.component.html',
-  styleUrl: './map.component.scss',
 })
 export class MapComponent implements OnInit {
   /**
@@ -23,17 +22,12 @@ export class MapComponent implements OnInit {
    * */
   @Input() dimension = 32;
 
-  mapCells: Signal<IMap> = signal([]);
+  private readonly mapBuilderService = inject(MapBuilderService);
 
-  constructor(private readonly mapBuilderService: MapBuilderService) {}
+  protected readonly mapCells = this.mapBuilderService.mapMatrixAsSignal;
 
   ngOnInit(): void {
-    this.startMap();
-  }
-
-  private startMap(): void {
     this.mapBuilderService.buildInitialMap(this.dimension);
-    this.mapCells = this.mapBuilderService.mapMatrixAsSignal;
   }
 
   changeCellType(position: Position): void {
