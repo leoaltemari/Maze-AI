@@ -12,15 +12,15 @@ import { MapBuilderService, MapInteractionService } from '@services';
   styleUrl: './side-bar.component.scss',
 })
 export class SideBarComponent {
-  readonly turnCellIntoOptions = [
+  protected readonly turnCellIntoOptions = [
     { label: 'Wall', value: TurnCellInto.Wall },
     { label: 'Target', value: TurnCellInto.Target },
     { label: 'Source', value: TurnCellInto.Source },
   ];
 
-  algorithmList = Object.values(Algorithms);
-  algorithmListExpanded = true;
-  selectedAlgorithm: Algorithms | undefined;
+  protected readonly algorithmList = Object.values(Algorithms);
+  protected algorithmListExpanded = true;
+  protected selectedAlgorithm: Algorithms | undefined;
 
   constructor(
     private readonly mapInteractionService: MapInteractionService,
