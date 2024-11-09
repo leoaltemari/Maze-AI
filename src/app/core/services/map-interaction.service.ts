@@ -1,7 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 
-import { TurnCellInto } from '@models';
-
+import { Algorithms, TurnCellInto } from '@models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,5 +14,14 @@ export class MapInteractionService {
     this._turnCellInto.set(action);
   }
 
-  /** Algorithims selections will be placed here */
+  private readonly _selectedAlgorithm = signal<Algorithms>(Algorithms.Astar);
+  get selectedAlgorithmAsSignal(): Signal<Algorithms> {
+    return this._selectedAlgorithm.asReadonly();
+  }
+  get selectedAlgorithm(): Algorithms {
+    return this._selectedAlgorithm();
+  }
+  set selectedAlgorithm(algorithm: Algorithms) {
+    this._selectedAlgorithm.set(algorithm);
+  }
 }
