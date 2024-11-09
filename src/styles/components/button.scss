@@ -1,5 +1,5 @@
-@import '../variables/colors.scss';
-@import '../utils/background.scss';
+@use '../variables/colors.scss' as colors;
+@use '../utils/background.scss' as bg;
 
 .btn {
   width: 100%;
@@ -24,7 +24,7 @@
   @extend .text-white;
 
   &:hover {
-    background-color: darken($blue, 15%);
+    background-color: darken(colors.$blue, 15%);
   }
 }
 

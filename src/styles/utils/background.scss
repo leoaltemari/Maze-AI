@@ -1,6 +1,6 @@
-@import '../variables/colors.scss';
+@use '../variables/colors.scss' as colors;
 
-@each $color, $color-name in $colors-list {
+@each $color, $color-name in colors.$colors-list {
   .bg-#{$color-name} {
     background-color: $color;
   }
