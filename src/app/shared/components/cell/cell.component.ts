@@ -17,8 +17,8 @@ import { CellType, Position } from '@models';
   styleUrl: './cell.component.scss',
 })
 export class CellComponent {
-  @Input({ required: true }) type: CellType = CellType.Empty;
-  @Input() position: Position = { x: 0, y: 0 };
+  @Input({ required: true }) type!: CellType;
+  @Input({ required: true }) position!: Position;
 
   protected readonly cellOnClick = output<Position>();
   protected readonly cellTypeEnum = CellType;

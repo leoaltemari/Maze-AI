@@ -31,7 +31,7 @@
       @for (option of algorithmList; track $index) {
         <li
           class="text-white list-item"
-          [ngClass]="{ 'bg-grey-3 selected': option === selectedAlgorithm }"
+          [ngClass]="{ 'bg-grey-3 selected': option === selectedAlgorithm() }"
           (click)="selectAlgorithm(option)"
         >
           {{ option }}
@@ -62,7 +62,7 @@
   <hr />
 
   <section class="centered-items">
-    <button class="btn-primary mr-2">Run</button>
+    <button class="btn-primary mr-2" (click)="runSearchAlgorithm()">Run</button>
     <button class="btn-secondary" (click)="clearWallsOnClick()">
       Clear walls
     </button>

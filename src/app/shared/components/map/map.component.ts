@@ -27,7 +27,7 @@ export class MapComponent implements OnInit {
   protected readonly mapCells = this.mapBuilderService.mapMatrixAsSignal;
 
   ngOnInit(): void {
-    this.mapBuilderService.buildInitialMap(this.dimension);
+    this.mapBuilderService.buildMap(this.dimension);
   }
 
   changeCellType(position: Position): void {
