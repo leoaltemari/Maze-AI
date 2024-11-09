@@ -1,11 +1,9 @@
 import { Injectable, Signal, signal } from '@angular/core';
 
-import { Cell, CellType, IMap, Position, TurnCellInto } from '@models';
+import { Cell, CellIcon, CellType, cellTypeToIconMap, IMap, Position, TurnCellInto } from '@models';
 import { MapInteractionService } from '@services';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class MapBuilderService {
   /** Store map matrix where each matrix position matches a cell type
    * @example
@@ -18,7 +16,7 @@ export class MapBuilderService {
    */
   private readonly _mapMatrix = signal<IMap>([]);
   get mapMatrixAsSignal(): Signal<IMap> {
-    return this._mapMatrix;
+    return this._mapMatrix.asReadonly();
   }
   get mapMatrix(): IMap {
     return this._mapMatrix();
@@ -27,36 +25,57 @@ export class MapBuilderService {
     this._mapMatrix.set(cells);
   }
 
-  private mapDimension = 32;
-  private sourcePos: Position | undefined;
-  private targetPos: Position | undefined;
+  private _mapAsStringMatrix: string[][] = [];
+  get mapAsStringMatrix(): string[][] {
+    return this._mapAsStringMatrix;
+  }
+
+  private _mapDimension = 32;
+  private _sourcePos: Position | undefined;
+  get sourcePos() {
+    return this._sourcePos;
+  }
+  private _targetPos: Position | undefined;
+  get targetPos() {
+    return this._targetPos;
+  }
+
+  isPath = (pos: Position) => this.isFromCellType(pos, CellType.Path);
+  isWall = (pos: Position) => this.isFromCellType(pos, CellType.Wall);
+  isSource = (pos: Position) => this.isFromCellType(pos, CellType.Source);
+  isTarget = (pos: Position) => this.isFromCellType(pos, CellType.Target);
 
   constructor(private readonly mapInteractionService: MapInteractionService) {}
 
-  private getCellType({ x, y }: Position): CellType {
-    return this._mapMatrix()[x][y].type;
+  private isFromCellType({ x, y }: Position, type: CellType): boolean {
+    return this.mapMatrix[x][y].type === type;
   }
 
-  private updateCellValue({ x, y }: Position, newType: CellType) {
+  updateCellType({ x, y }: Position, newType: CellType): void {
     this._mapMatrix.update((matrix) => {
       matrix[x][y].type = newType;
-
       return matrix;
     });
+
+    this._mapAsStringMatrix[x][y] = cellTypeToIconMap[newType];
   }
 
   /**
    * Method to fill up the initial map matrix with empty cells.
    * @param dimension number of rows and columns that the map will have (always a quadratic form matrix).
    */
-  buildInitialMap(dimension: number): void {
-    this.mapDimension = dimension;
+  buildMap(dimension?: number): void {
+    this._mapDimension = dimension ?? this._mapDimension;
     const map: IMap = [];
 
-    for (let i = 0; i < this.mapDimension; i++) {
+    for (let i = 0; i < this._mapDimension; i++) {
       map.push([]);
-      for (let j = 0; j < this.mapDimension; j++) {
-        map[i].push(new Cell(i, j));
+      this._mapAsStringMatrix.push([]);
+
+      for (let j = 0; j < this._mapDimension; j++) {
+        const pos = { x: i, y: j };
+        map[i].push(new Cell(pos));
+        this._mapAsStringMatrix[i].push(CellIcon.Empty);
       }
     }
 
@@ -65,11 +84,12 @@ export class MapBuilderService {
 
   clearAllMapWalls(): void {
     this._mapMatrix.update((mapMatrix) => {
-      mapMatrix.forEach((matrixRows) => {
-        matrixRows.forEach((cell) => {
-          if (cell.type === CellType.Wall) {
+      mapMatrix.forEach((matrixRows, i) => {
+        matrixRows.forEach((cell, j) => {
+          if (this.isWall(cell.position)) {
             cell.type = CellType.Empty;
           }
+          this._mapAsStringMatrix[i][j] = CellIcon.Empty;
         });
       });
 
@@ -80,31 +100,28 @@ export class MapBuilderService {
   changeCellTypeOnAction(cellPosition: Position): void {
     switch (this.mapInteractionService.turnCellInto) {
       case TurnCellInto.Wall:
-        const newType =
-          this.getCellType(cellPosition) === CellType.Wall
-            ? CellType.Empty
-            : CellType.Wall;
-        this.updateCellValue(cellPosition, newType);
+        const newType = this.isWall(cellPosition) ? CellType.Empty : CellType.Wall;
+        this.updateCellType(cellPosition, newType);
         break;
 
       case TurnCellInto.Source:
         /** Removes any source that already exists */
         if (this.sourcePos) {
-          this.updateCellValue(this.sourcePos, CellType.Empty);
+          this.updateCellType(this.sourcePos, CellType.Empty);
         }
 
-        this.updateCellValue(cellPosition, CellType.Source);
-        this.sourcePos = cellPosition;
+        this.updateCellType(cellPosition, CellType.Source);
+        this._sourcePos = cellPosition;
         break;
 
       case TurnCellInto.Target:
         /** Removes any target that already exists */
         if (this.targetPos) {
-          this.updateCellValue(this.targetPos, CellType.Empty);
+          this.updateCellType(this.targetPos, CellType.Empty);
         }
 
-        this.updateCellValue(cellPosition, CellType.Target);
-        this.targetPos = cellPosition;
+        this.updateCellType(cellPosition, CellType.Target);
+        this._targetPos = cellPosition;
         break;
     }
   }
