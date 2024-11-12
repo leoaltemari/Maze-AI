@@ -1,70 +1,69 @@
 <aside class="p-4 bg-grey-4">
-  <section>
-    <div class="d-flex">
-      <img src="assets/ai-icon.png" class="mr-4 ai-icon" />
-      <h1 class="mb-0">
-        <span class="text-blue">MAZE</span> <br />
-        <span class="text-white">A.I</span>
-      </h1>
+  <section class="d-flex">
+    <img
+      src="assets/ai-icon.png"
+      alt="Image from a technological representing the project logo"
+      class="mr-4 ai-icon"
+    />
+    <h1 class="mb-0">
+      <span class="text-blue">MAZE</span> <br />
+      <span class="text-white">A.I</span>
+    </h1>
+  </section>
+
+  <hr />
+
+  <span
+    class="d-flex align-items-center justify-content-between bg-grey-3 algo-title"
+    (click)="algorithmListExpanded = !algorithmListExpanded"
+  >
+    <div class="d-flex align-items-center">
+      <img src="assets/algorithm.png" class="mr-3 algo-icon" />
+      <p class="text-white">Algorithm</p>
     </div>
-  </section>
+    <img src="assets/arrow.png" class="arrow-icon" [class.closed]="!algorithmListExpanded" />
+  </span>
 
-  <hr />
-
-  <section>
-    <span
-      class="d-flex align-items-center justify-content-between bg-grey-3 algo-title"
-      (click)="algorithmListExpanded = !algorithmListExpanded"
-    >
-      <div class="d-flex align-items-center">
-        <img src="assets/algorithm.png" class="mr-3 algo-icon" />
-        <p class="text-white">Algorithm</p>
-      </div>
-      <img
-        src="assets/arrow.png"
-        class="arrow-icon"
-        [class.closed]="!algorithmListExpanded"
-      />
-    </span>
-
-    <ul class="algo-list" [class.hide]="!algorithmListExpanded">
-      @for (option of algorithmList; track $index) {
-        <li
-          class="text-white list-item"
-          [ngClass]="{ 'bg-grey-3 selected': option === selectedAlgorithm() }"
-          (click)="selectAlgorithm(option)"
-        >
-          {{ option }}
-        </li>
-      }
-    </ul>
-  </section>
-
-  <hr />
-
-  <section>
-    <span class="text-white text-center w-100 d-block">Turn cell into:</span>
-
-    @for (option of turnCellIntoOptions; track $index) {
-      <div class="my-3 pl-2 d-flex align-items-center">
-        <input
-          type="radio"
-          name="turnCellOption"
-          class="mr-3 mt-0"
-          [checked]="option.value === 2"
-          (change)="turnCellInto(option.value)"
-        />
-        <span class="text-white">{{ option.label }}</span>
-      </div>
+  <ul
+    class="algo-list"
+    [class.hide]="!algorithmListExpanded"
+    [attr.aria-expanded]="algorithmListExpanded"
+  >
+    @for (option of algorithmList; track $index) {
+      <li
+        class="text-white list-item"
+        [ngClass]="{ 'bg-grey-3 selected': option === selectedAlgorithm() }"
+        (click)="selectAlgorithm(option)"
+      >
+        {{ option }}
+      </li>
     }
-  </section>
+  </ul>
 
   <hr />
 
-  <section class="centered-items">
-    <button class="btn-primary mr-2" (click)="runSearchAlgorithm()">Run</button>
-    <button class="btn-secondary" (click)="clearWallsOnClick()">
-      Clear walls
-    </button>
-  </section>
+  <span class="text-white text-center w-100 d-block">Turn cell into:</span>
+
+  @for (option of turnCellIntoOptions; track $index) {
+    <div class="my-3 pl-2 d-flex align-items-center">
+      <input
+        type="radio"
+        name="turnCellOption"
+        class="mr-3 mt-0"
+        [checked]="option.value === 2"
+        (change)="turnCellInto(option.value)"
+      />
+      <span class="text-white">{{ option.label }}</span>
+    </div>
+  }
+
+  <hr />
+
+  <button class="btn-secondary mb-2" (click)="clearWalls()">Clear Walls</button>
+  <button class="btn-secondary mb-2" (click)="clearPath()">Clear Path</button>
+  <button class="btn-secondary" (click)="clearAll()">Clear ALL</button>
+
+  <hr />
+
+  <button class="btn-primary" (click)="runSearchAlgorithm()">Run</button>
 </aside>
