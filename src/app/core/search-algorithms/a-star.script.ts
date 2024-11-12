@@ -13,23 +13,6 @@ export class AStar extends SearchAlgorithmBase {
     super(map, sourcePos, targetPos, heuristic);
   }
 
-  /**
-   * Format the path backtracking the target cell to its parent, recursively,
-   * until it finds the source cell (has no parent cell, parent === null)
-   */
-  private formatPath(target: Cell): Position[] {
-    const path: Position[] = [];
-
-    let temp: Cell | null = target;
-
-    while (temp) {
-      path.push({ x: temp.position.x, y: temp.position.y });
-      temp = temp.parent;
-    }
-
-    return path.reverse();
-  }
-
   override run(): void {
     const source = new Cell(this._sourcePos);
     const target = new Cell(this._targetPos as Position);
@@ -46,15 +29,6 @@ export class AStar extends SearchAlgorithmBase {
     /** Will try to find the path until there is no more cells to visit */
     while (openSet.length) {
       openSet.sort((a, b) => a.totalCost - b.totalCost);
-      console.log(
-        openSet.map((set) => ({
-          x: set.position.x,
-          y: set.position.y,
-          fromSrc: set.costFromSource,
-          toTg: set.distanceToTarget,
-          cost: set.totalCost,
-        })),
-      );
 
       const current = openSet.shift()!;
 
@@ -62,7 +36,7 @@ export class AStar extends SearchAlgorithmBase {
 
       /** Target was found */
       if (equalPositions(current.position, target.position)) {
-        this._path = this.formatPath(current);
+        this._path = this.backtrackingPath(current);
         return;
       }
 
@@ -80,7 +54,7 @@ export class AStar extends SearchAlgorithmBase {
           /** New cell was found */
           if (!neighbor) {
             openSet.push(
-              new Cell({ x, y }, gScore, this._heuristic({ x, y }, target.position), current),
+              new Cell({ x, y }, current, gScore, this._heuristic({ x, y }, target.position)),
             );
           } else if (gScore < neighbor.costFromSource) {
             /** Found a better path to a cell that was already visited */

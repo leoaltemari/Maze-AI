@@ -53,6 +53,23 @@ export class SearchAlgorithmBase {
     );
   }
 
+  /**
+   * Format the path backtracking the target cell to its parent, recursively,
+   * until it finds the source cell (has no parent cell, parent === null)
+   */
+  protected backtrackingPath(target: Cell): Position[] {
+    const path: Position[] = [];
+
+    let temp: Cell | null = target;
+
+    while (temp) {
+      path.push({ x: temp.position.x, y: temp.position.y });
+      temp = temp.parent;
+    }
+
+    return path.reverse();
+  }
+
   protected isTarget({ x, y }: Position): boolean {
     return this._map[x][y] === CellIcon.Target;
   }
