@@ -53,11 +53,11 @@ export class SearchAlgorithmBase {
     );
   }
 
-  run(): void {
-    throw new Error('run() method must be implemented!');
+  protected isTarget({ x, y }: Position): boolean {
+    return this._map[x][y] === CellIcon.Target;
   }
 
-  protected canAccessCell({ x, y }: Position, cellsAlreadyVisited: Cell[]): boolean {
+  protected canAccessCell({ x, y }: Position, cellsAlreadyVisited: Cell[] = []): boolean {
     return (
       x >= 0 &&
       x < this._mapRows &&
@@ -66,5 +66,9 @@ export class SearchAlgorithmBase {
       this._map[x][y] !== CellIcon.Wall &&
       !cellsAlreadyVisited.some(({ position }) => position.x === x && position.y === y)
     );
+  }
+
+  run(): void {
+    throw new Error('run() method must be implemented!');
   }
 }

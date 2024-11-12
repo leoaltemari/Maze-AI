@@ -92,8 +92,8 @@ export class MapBuilderService {
         matrixRows.forEach((cell, j) => {
           if (cell.type === type) {
             cell.type = CellType.Empty;
+            this._mapAsStringMatrix[i][j] = CellIcon.Empty;
           }
-          this._mapAsStringMatrix[i][j] = CellIcon.Empty;
         });
       });
 

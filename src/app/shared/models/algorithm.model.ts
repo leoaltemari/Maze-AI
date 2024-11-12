@@ -1,7 +1,7 @@
 import { Position } from '@models';
-import { AStar } from '@search-algorithms';
+import { AStar, DFS } from '@search-algorithms';
 
-export type SearchAlgorithm = AStar;
+export type SearchAlgorithm = AStar | DFS;
 
 export enum Algorithms {
   Astar = 'A*',
