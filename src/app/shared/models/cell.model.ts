@@ -28,16 +28,7 @@ export interface Position {
   y: number;
 }
 
-export const iconToCellTypeMap = {
-  [CellIcon.Source]: CellType.Source,
-  [CellIcon.Target]: CellType.Target,
-  [CellIcon.Wall]: CellType.Wall,
-  [CellIcon.Empty]: CellType.Empty,
-  [CellIcon.Path]: CellType.Path,
-  [CellIcon.Expanded]: CellType.Expanded,
-};
-
-export const cellTypeToIconMap = {
+export const cellTypeToIconMap: Record<CellType, CellIcon> = {
   [CellType.Source]: CellIcon.Source,
   [CellType.Target]: CellIcon.Target,
   [CellType.Wall]: CellIcon.Wall,

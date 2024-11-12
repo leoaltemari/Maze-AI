@@ -17,6 +17,7 @@ import { MapBuilderService } from '@services';
 export class MapComponent implements OnInit {
   /**
    * Dimension sets the number of cells the map will have on the rows and columns.
+   * @example
    * A dimension of 5 means that the map will have 5 rows with 5 cells each (total of 25 cells),
    * as a matrix [5]x[5].
    * */
