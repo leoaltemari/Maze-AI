@@ -82,11 +82,15 @@ export class MapBuilderService {
     this._mapMatrix.set(map);
   }
 
-  clearAllMapWalls(): void {
+  /**
+   * Clear all cells from map that are from a certain type.
+   * @param type Type of the cell that will be cleard from the map.
+   */
+  clear(type: CellType): void {
     this._mapMatrix.update((mapMatrix) => {
       mapMatrix.forEach((matrixRows, i) => {
         matrixRows.forEach((cell, j) => {
-          if (this.isWall(cell.position)) {
+          if (cell.type === type) {
             cell.type = CellType.Empty;
           }
           this._mapAsStringMatrix[i][j] = CellIcon.Empty;
