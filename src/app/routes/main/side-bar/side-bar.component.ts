@@ -48,7 +48,7 @@ export class SideBarComponent {
       'A*': Algorithms.Astar,
       BFS: Algorithms.BFS,
       DFS: Algorithms.DFS,
-      BestFS: Algorithms.BestFS,
+      'Best First Search': Algorithms.BestFS,
       HillClimb: Algorithms.HillClimb,
     };
 
