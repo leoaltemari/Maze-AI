@@ -1,11 +1,16 @@
 import { Cell, MapMatrix, Position } from '@models';
-import { equalPositions, euclideanDistance } from '@utils';
+import { equalPositions, manhattanDistance } from '@utils';
 
 import { SearchAlgorithmBase } from './search-algorithms-base';
 
 export class AStar extends SearchAlgorithmBase {
-  constructor(map: MapMatrix, sourcePos: Position, targetPos: Position) {
-    super(map, sourcePos, targetPos, euclideanDistance);
+  constructor(
+    map: MapMatrix,
+    sourcePos: Position,
+    targetPos: Position,
+    heuristic = manhattanDistance,
+  ) {
+    super(map, sourcePos, targetPos, heuristic);
   }
 
   /**
@@ -42,7 +47,13 @@ export class AStar extends SearchAlgorithmBase {
     while (openSet.length) {
       openSet.sort((a, b) => a.totalCost - b.totalCost);
       console.log(
-        openSet.map((set) => ({ x: set.position.x, y: set.position.y, cost: set.totalCost })),
+        openSet.map((set) => ({
+          x: set.position.x,
+          y: set.position.y,
+          fromSrc: set.costFromSource,
+          toTg: set.distanceToTarget,
+          cost: set.totalCost,
+        })),
       );
 
       const current = openSet.shift()!;
@@ -57,7 +68,7 @@ export class AStar extends SearchAlgorithmBase {
 
       closedSet.push(current);
 
-      /** Finds the nearst neighbor from current cell that has the best score to the target */
+      /** Finds the nearest neighbor from current cell that has the best score to the target */
       for (let [dx, dy] of this._directions) {
         const x = current.position.x + dx;
         const y = current.position.y + dy;
