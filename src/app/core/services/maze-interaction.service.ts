@@ -5,7 +5,7 @@ import { Algorithms, TurnCellInto } from '@models';
 @Injectable({
   providedIn: 'root',
 })
-export class MapInteractionService {
+export class MazeInteractionService {
   private readonly _turnCellInto = signal<TurnCellInto>(TurnCellInto.Wall);
   get turnCellInto(): TurnCellInto {
     return this._turnCellInto();

@@ -1,16 +1,16 @@
-import { Cell, MapMatrix, Position } from '@models';
+import { Cell, MazeMatrix, Position } from '@models';
 import { equalPositions, manhattanDistance } from '@utils';
 
 import { SearchAlgorithmBase } from './search-algorithms-base';
 
 export class AStar extends SearchAlgorithmBase {
   constructor(
-    map: MapMatrix,
+    maze: MazeMatrix,
     sourcePos: Position,
     targetPos: Position,
     heuristic = manhattanDistance,
   ) {
-    super(map, sourcePos, targetPos, heuristic);
+    super(maze, sourcePos, targetPos, heuristic);
   }
 
   override run(): void {

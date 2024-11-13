@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MapBuilderService } from './map-builder.service';
+import { MazeBuilderService } from './maze-builder.service';
 
-describe('MapBuilderService', () => {
-  let service: MapBuilderService;
+describe('MazeBuilderService', () => {
+  let service: MazeBuilderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MapBuilderService);
+    service = TestBed.inject(MazeBuilderService);
   });
 
   it('should be created', () => {

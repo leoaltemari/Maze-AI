@@ -1,71 +1,68 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Algorithms, CellType, Position, SearchAlgorithm } from '@models';
-import { AStar, DFS } from '@search-algorithms';
-import { MapInteractionService } from '@services';
-
-import { MapBuilderService } from './map-builder.service';
+import { AStar, BestFS, BFS, DFS, HillClimb, SearchAlgorithmBase } from '@search-algorithms';
+import { MazeBuilderService, MazeInteractionService } from '@services';
 
 const BUILD_PATH_DELAY = 80;
 const BUILD_EXPANDED_DELAY = 10;
 
 @Injectable()
 export class SearchService {
-  /** Used to save the generated path so it can be cleaned on a new run */
-  private _generatedPath: Position[] = [];
-  private _generatedExpanded: Position[] = [];
+  private readonly mazeBuilderService = inject(MazeBuilderService);
+  private readonly mazeInteractionService = inject(MazeInteractionService);
+
   private _pathGenerationTimeout: ReturnType<typeof setTimeout>[] = [];
 
-  constructor(
-    private readonly mapBuilderService: MapBuilderService,
-    private readonly mapInteractionService: MapInteractionService,
-  ) {}
-
   private clearPath(): void {
-    this._generatedPath = [];
-    this._generatedExpanded = [];
-    this.mapBuilderService.clear(CellType.Path);
-    this.mapBuilderService.clear(CellType.Expanded);
+    this.mazeBuilderService.clear(CellType.Path);
+    this.mazeBuilderService.clear(CellType.Expanded);
     this._pathGenerationTimeout.forEach(clearTimeout);
   }
 
-  private updateMapWith(cells: Position[], type: CellType) {
+  private updateMazeWith(cells: Position[], type: CellType) {
     const delay = type === CellType.Path ? BUILD_PATH_DELAY : BUILD_EXPANDED_DELAY;
 
     cells.forEach((path, i) => {
       this._pathGenerationTimeout.push(
-        setTimeout(() => this.mapBuilderService.updateCellType(path, type), delay * (i + 1)),
+        setTimeout(() => this.mazeBuilderService.updateCellType(path, type), delay * (i + 1)),
       );
     });
+  }
+
+  private createAlgorithmObject(): SearchAlgorithm | SearchAlgorithmBase {
+    const { sourcePos, targetPos, mazeAsStringMatrix } = this.mazeBuilderService;
+
+    switch (this.mazeInteractionService.selectedAlgorithm) {
+      case Algorithms.Astar:
+        return new AStar(mazeAsStringMatrix, sourcePos!, targetPos!);
+      case Algorithms.DFS:
+        return new DFS(mazeAsStringMatrix, sourcePos!);
+      case Algorithms.BFS:
+        return new BFS(mazeAsStringMatrix, sourcePos!);
+      case Algorithms.BestFS:
+        return new BestFS(mazeAsStringMatrix, sourcePos!, targetPos!);
+      case Algorithms.HillClimb:
+        return new HillClimb(mazeAsStringMatrix, sourcePos!, targetPos!);
+      default:
+        return new SearchAlgorithmBase(mazeAsStringMatrix, sourcePos!);
+    }
   }
 
   runSearchAlgorithm(): void {
     this.clearPath();
 
-    const { selectedAlgorithm } = this.mapInteractionService;
-    const { sourcePos, targetPos, mapAsStringMatrix } = this.mapBuilderService;
-
-    let searchAlgoClass!: SearchAlgorithm;
+    const { sourcePos, targetPos } = this.mazeBuilderService;
 
     if (!sourcePos || !targetPos) {
       console.log('No surce or no target was setted');
       return;
     }
 
-    switch (selectedAlgorithm) {
-      case Algorithms.Astar:
-        searchAlgoClass = new AStar(mapAsStringMatrix, sourcePos, targetPos);
-        break;
-      case Algorithms.DFS:
-        searchAlgoClass = new DFS(mapAsStringMatrix, sourcePos);
-        break;
-    }
-
+    const searchAlgoClass = this.createAlgorithmObject();
     searchAlgoClass.run();
-    this._generatedPath = searchAlgoClass.path;
-    this._generatedExpanded = searchAlgoClass.expanded;
 
-    this.updateMapWith(this._generatedExpanded, CellType.Expanded);
-    this.updateMapWith(this._generatedPath, CellType.Path);
+    this.updateMazeWith(searchAlgoClass.expanded, CellType.Expanded);
+    this.updateMazeWith(searchAlgoClass.path, CellType.Path);
   }
 }

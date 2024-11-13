@@ -1,10 +1,10 @@
-import { Cell, MapMatrix, Position } from '@models';
+import { Cell, MazeMatrix, Position } from '@models';
 
 import { SearchAlgorithmBase } from './search-algorithms-base';
 
 export class BFS extends SearchAlgorithmBase {
-  constructor(map: MapMatrix, sourcePos: Position) {
-    super(map, sourcePos);
+  constructor(maze: MazeMatrix, sourcePos: Position) {
+    super(maze, sourcePos);
   }
 
   override run(): void {

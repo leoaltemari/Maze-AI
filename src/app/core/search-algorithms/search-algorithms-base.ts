@@ -1,4 +1,4 @@
-import { Cell, CellIcon, Heuristic, MapMatrix, Position } from '@models';
+import { Cell, CellIcon, Heuristic, MazeMatrix, Position } from '@models';
 import { equalPositions, euclideanDistance } from '@utils';
 
 export class SearchAlgorithmBase {
@@ -9,9 +9,9 @@ export class SearchAlgorithmBase {
    */
   protected _heuristic!: Heuristic;
 
-  protected _map!: MapMatrix;
-  protected _mapRows!: number;
-  protected _mapColumns!: number;
+  protected _maze!: MazeMatrix;
+  protected _mazeRows!: number;
+  protected _mazeColumns!: number;
 
   protected _sourcePos!: Position;
   protected _targetPos?: Position;
@@ -27,14 +27,14 @@ export class SearchAlgorithmBase {
   ];
 
   constructor(
-    map: MapMatrix,
+    maze: MazeMatrix,
     sourcePos: Position,
     targetPos?: Position,
     heuristic: Heuristic = euclideanDistance,
   ) {
-    this._map = map;
-    this._mapRows = map.length;
-    this._mapColumns = map[0].length;
+    this._maze = maze;
+    this._mazeRows = maze.length;
+    this._mazeColumns = maze[0].length;
 
     this._heuristic = heuristic;
     this._sourcePos = sourcePos ?? undefined;
@@ -71,16 +71,16 @@ export class SearchAlgorithmBase {
   }
 
   protected isTarget({ x, y }: Position): boolean {
-    return this._map[x][y] === CellIcon.Target;
+    return this._maze[x][y] === CellIcon.Target;
   }
 
   protected canAccessCell({ x, y }: Position, cellsAlreadyVisited: Cell[] = []): boolean {
     return (
       x >= 0 &&
-      x < this._mapRows &&
+      x < this._mazeRows &&
       y >= 0 &&
-      y < this._mapColumns &&
-      this._map[x][y] !== CellIcon.Wall &&
+      y < this._mazeColumns &&
+      this._maze[x][y] !== CellIcon.Wall &&
       !cellsAlreadyVisited.some(({ position }) => position.x === x && position.y === y)
     );
   }

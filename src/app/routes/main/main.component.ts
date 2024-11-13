@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 
-import { MapComponent } from '@components/map/map.component';
-import { MapBuilderService } from '@services';
+import { MazeComponent } from '@components/maze/maze.component';
+import { MazeBuilderService } from '@services';
 
 import { SideBarComponent } from './side-bar/side-bar.component';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [SideBarComponent, MapComponent],
-  providers: [MapBuilderService],
+  imports: [SideBarComponent, MazeComponent],
+  providers: [MazeBuilderService],
   host: {
     class: 'd-flex',
   },

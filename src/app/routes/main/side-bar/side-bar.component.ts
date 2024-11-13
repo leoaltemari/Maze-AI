@@ -2,20 +2,27 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
 import { Algorithms, CellType, TurnCellInto } from '@models';
-import { MapBuilderService, MapInteractionService, SearchService } from '@services';
+import { MazeBuilderService, MazeInteractionService, SearchService } from '@services';
 
 @Component({
   selector: 'app-side-bar',
   standalone: true,
   imports: [CommonModule],
   providers: [SearchService],
+  host: {
+    class: 'p-4 bg-grey-4',
+  },
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss',
 })
 export class SideBarComponent {
-  private readonly mapInteractionService = inject(MapInteractionService);
-  private readonly mapBuilderService = inject(MapBuilderService);
+  private readonly mazeInteractionService = inject(MazeInteractionService);
+  private readonly mazeBuilderService = inject(MazeBuilderService);
   private readonly searchService = inject(SearchService);
+
+  protected readonly algorithmList = Object.values(Algorithms);
+  protected algorithmListExpanded = true;
+  protected selectedAlgorithm = this.mazeInteractionService.selectedAlgorithmAsSignal;
 
   protected readonly turnCellIntoOptions = [
     { label: 'Wall', value: TurnCellInto.Wall },
@@ -23,28 +30,24 @@ export class SideBarComponent {
     { label: 'Target', value: TurnCellInto.Target },
   ];
 
-  protected readonly algorithmList = Object.values(Algorithms);
-  protected algorithmListExpanded = true;
-  protected selectedAlgorithm = this.mapInteractionService.selectedAlgorithmAsSignal;
-
-  protected clearWalls = () => this.mapBuilderService.clear(CellType.Wall);
+  protected clearWalls = () => this.mazeBuilderService.clear(CellType.Wall);
   protected clearPath = () => {
-    this.mapBuilderService.clear(CellType.Path);
-    this.mapBuilderService.clear(CellType.Expanded);
+    this.mazeBuilderService.clear(CellType.Path);
+    this.mazeBuilderService.clear(CellType.Expanded);
   };
   protected clearAll = () => {
     this.clearWalls();
     this.clearPath();
-    this.mapBuilderService.clear(CellType.Source);
-    this.mapBuilderService.clear(CellType.Target);
+    this.mazeBuilderService.clear(CellType.Source);
+    this.mazeBuilderService.clear(CellType.Target);
   };
 
-  turnCellInto(value: TurnCellInto): void {
-    this.mapInteractionService.turnCellInto = value;
+  selectTurnCellInto(option: TurnCellInto): void {
+    this.mazeInteractionService.turnCellInto = option;
   }
 
   selectAlgorithm(option: string): void {
-    const optionToAlgoMap: { [key: string]: Algorithms } = {
+    const optionToAlgoMap: Record<string, Algorithms> = {
       'A*': Algorithms.Astar,
       BFS: Algorithms.BFS,
       DFS: Algorithms.DFS,
@@ -52,7 +55,7 @@ export class SideBarComponent {
       HillClimb: Algorithms.HillClimb,
     };
 
-    this.mapInteractionService.selectedAlgorithm = optionToAlgoMap[option];
+    this.mazeInteractionService.selectedAlgorithm = optionToAlgoMap[option];
   }
 
   runSearchAlgorithm() {

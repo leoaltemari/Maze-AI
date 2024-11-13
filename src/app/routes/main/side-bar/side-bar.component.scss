@@ -1,6 +1,6 @@
 $box-color: #2D2F39;
 
-aside {
+:host {
   position: fixed;
   width: 208px;
   height: 100vh;
@@ -16,7 +16,6 @@ aside {
   }
 }
 
-
 hr {
   background-color: $box-color;
   height: 3px;
@@ -25,12 +24,8 @@ hr {
   margin-bottom: 24px;
 }
 
-.item-box {
-  border-radius: 5px;
-}
-
 .algo-title {
-  @extend .item-box;
+  border-radius: 5px;
   padding: 10px 12px;
   cursor: pointer;
   height: 20px;
@@ -92,5 +87,5 @@ hr {
     cursor: pointer;
   }
 
-  .selected {  @extend .item-box; }
+  .selected { border-radius: 5px; }
 }

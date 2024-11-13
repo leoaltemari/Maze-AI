@@ -1,10 +1,10 @@
-import { MapMatrix, Position } from '@models';
+import { MazeMatrix, Position } from '@models';
 
 import { SearchAlgorithmBase } from './search-algorithms-base';
 
 export class DFS extends SearchAlgorithmBase {
-  constructor(map: MapMatrix, sourcePos: Position) {
-    super(map, sourcePos);
+  constructor(maze: MazeMatrix, sourcePos: Position) {
+    super(maze, sourcePos);
   }
 
   override run(): void {

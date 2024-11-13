@@ -16,6 +16,15 @@ export enum CellIcon {
   Expanded = '+',
 }
 
+export const typeToBackgroundColorMap: Record<CellType, string> = {
+  [CellType.Source]: 'bg-green',
+  [CellType.Target]: 'bg-red',
+  [CellType.Expanded]: 'bg-light-green',
+  [CellType.Wall]: 'bg-grey-3',
+  [CellType.Path]: 'bg-blue',
+  [CellType.Empty]: 'bg-grey',
+};
+
 /** Indicates on which type the cell will turn when the user clicks on it */
 export enum TurnCellInto {
   Source,
@@ -38,11 +47,11 @@ export const cellTypeToIconMap: Record<CellType, CellIcon> = {
 };
 
 export class Cell {
-  /** Strin icon that represents the type of cell on the map */
+  /** Strin icon that represents the type of cell on the maze */
   private _icon: CellIcon = CellIcon.Empty;
   /** Stores the type of the cell, if it is an empty cell, a source cell, etc. */
   private _type: CellType = CellType.Empty;
-  /** Current position that the cell has on the map */
+  /** Current position that the cell has on the maze */
 
   private _position: Position;
 
@@ -53,14 +62,14 @@ export class Cell {
   totalCost: number = 0;
 
   /** Stores the cell that the was being visited before the current cell. It will stores null
-   * if it is the first cell being visited on the map */
+   * if it is the first cell being visited on the maze */
   parent: Cell | null;
 
   constructor(
     { x, y }: Position,
+    parent: Cell | null = null,
     g = 0,
     h = 0,
-    parent: Cell | null = null,
     type: CellType = CellType.Empty,
   ) {
     this._position = { x, y };
