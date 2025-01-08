@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
-import { Algorithms, CellType, Position, SearchAlgorithm } from '@models';
-import { AStar, BestFS, BFS, DFS, HillClimb, SearchAlgorithmBase } from '@search-algorithms';
+import { AlgorithmObj, Algorithms, CellType, Position } from '@models';
+import { AStar, BestFS, BFS, DFS, HillClimb } from '@search-algorithms';
 import { MazeBuilderService, MazeInteractionService } from '@services';
 
 const BUILD_PATH_DELAY = 80;
@@ -14,12 +14,6 @@ export class SearchService {
 
   private _pathGenerationTimeout: ReturnType<typeof setTimeout>[] = [];
 
-  private clearPath(): void {
-    this.mazeBuilderService.clear(CellType.Path);
-    this.mazeBuilderService.clear(CellType.Expanded);
-    this._pathGenerationTimeout.forEach(clearTimeout);
-  }
-
   private updateMazeWith(cells: Position[], type: CellType) {
     const delay = type === CellType.Path ? BUILD_PATH_DELAY : BUILD_EXPANDED_DELAY;
 
@@ -30,7 +24,7 @@ export class SearchService {
     });
   }
 
-  private createAlgorithmObject(): SearchAlgorithm | SearchAlgorithmBase {
+  private createAlgorithmObject(): AlgorithmObj {
     const { sourcePos, targetPos, mazeAsStringMatrix } = this.mazeBuilderService;
 
     switch (this.mazeInteractionService.selectedAlgorithm) {
@@ -44,13 +38,14 @@ export class SearchService {
         return new BestFS(mazeAsStringMatrix, sourcePos!, targetPos!);
       case Algorithms.HillClimb:
         return new HillClimb(mazeAsStringMatrix, sourcePos!, targetPos!);
-      default:
-        return new SearchAlgorithmBase(mazeAsStringMatrix, sourcePos!);
     }
   }
 
   runSearchAlgorithm(): void {
-    this.clearPath();
+    /** Clear maze */
+    this.mazeBuilderService.clear(CellType.Path);
+    this.mazeBuilderService.clear(CellType.Expanded);
+    this._pathGenerationTimeout.forEach(clearTimeout);
 
     const { sourcePos, targetPos } = this.mazeBuilderService;
 
@@ -59,10 +54,10 @@ export class SearchService {
       return;
     }
 
-    const searchAlgoClass = this.createAlgorithmObject();
-    searchAlgoClass.run();
+    const searchAlgorithm: AlgorithmObj = this.createAlgorithmObject();
+    searchAlgorithm.run();
 
-    this.updateMazeWith(searchAlgoClass.expanded, CellType.Expanded);
-    this.updateMazeWith(searchAlgoClass.path, CellType.Path);
+    this.updateMazeWith(searchAlgorithm.expanded, CellType.Expanded);
+    this.updateMazeWith(searchAlgorithm.path, CellType.Path);
   }
 }

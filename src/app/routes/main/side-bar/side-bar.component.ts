@@ -30,12 +30,12 @@ export class SideBarComponent {
     { label: 'Target', value: TurnCellInto.Target },
   ];
 
-  protected clearWalls = () => this.mazeBuilderService.clear(CellType.Wall);
-  protected clearPath = () => {
+  protected clearWalls: VoidFunction = () => this.mazeBuilderService.clear(CellType.Wall);
+  protected clearPath: VoidFunction = () => {
     this.mazeBuilderService.clear(CellType.Path);
     this.mazeBuilderService.clear(CellType.Expanded);
   };
-  protected clearAll = () => {
+  protected clearAll: VoidFunction = () => {
     this.clearWalls();
     this.clearPath();
     this.mazeBuilderService.clear(CellType.Source);
@@ -58,7 +58,7 @@ export class SideBarComponent {
     this.mazeInteractionService.selectedAlgorithm = optionToAlgoMap[option];
   }
 
-  runSearchAlgorithm() {
+  runSearchAlgorithm(): void {
     this.searchService.runSearchAlgorithm();
   }
 }

@@ -47,22 +47,26 @@ export const cellTypeToIconMap: Record<CellType, CellIcon> = {
 };
 
 export class Cell {
-  /** Strin icon that represents the type of cell on the maze */
+  /** String icon that represents the type of cell on the maze */
   private _icon: CellIcon = CellIcon.Empty;
+
   /** Stores the type of the cell, if it is an empty cell, a source cell, etc. */
   private _type: CellType = CellType.Empty;
-  /** Current position that the cell has on the maze */
 
+  /** Current position that the cell has on the maze */
   private _position: Position;
 
   /** Value that represents the _heuristic() value from the current cell to the target cell */
   costFromSource: number;
+
   /** Euclidean distance from the current cell to target */
   distanceToTarget: number;
   totalCost: number = 0;
 
-  /** Stores the cell that the was being visited before the current cell. It will stores null
-   * if it is the first cell being visited on the maze */
+  /**
+   * Stores the cell that the was being visited before the current cell. It will stores null
+   * if it is the first cell being visited on the maze
+   */
   parent: Cell | null;
 
   constructor(
@@ -81,11 +85,11 @@ export class Cell {
     this.parent = parent;
   }
 
-  get position() {
+  get position(): Position {
     return this._position;
   }
 
-  get type() {
+  get type(): CellType {
     return this._type;
   }
   set type(cellType: CellType) {
@@ -93,10 +97,10 @@ export class Cell {
     this._icon = cellTypeToIconMap[cellType];
   }
 
-  set icon(icon: CellIcon) {
-    this._icon = icon;
-  }
   get icon(): CellIcon {
     return this._icon;
+  }
+  set icon(icon: CellIcon) {
+    this._icon = icon;
   }
 }

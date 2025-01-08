@@ -1,7 +1,7 @@
 import { Position } from '@models';
 import { AStar, BestFS, BFS, DFS, HillClimb } from '@search-algorithms';
 
-export type SearchAlgorithm = AStar | DFS | BFS | BestFS | HillClimb;
+export type AlgorithmObj = AStar | DFS | BFS | BestFS | HillClimb;
 
 export enum Algorithms {
   Astar = 'A*',

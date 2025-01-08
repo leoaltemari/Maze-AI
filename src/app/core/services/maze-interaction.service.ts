@@ -7,6 +7,7 @@ import { Algorithms, TurnCellInto } from '@models';
 })
 export class MazeInteractionService {
   private readonly _turnCellInto = signal<TurnCellInto>(TurnCellInto.Wall);
+
   get turnCellInto(): TurnCellInto {
     return this._turnCellInto();
   }
@@ -15,6 +16,7 @@ export class MazeInteractionService {
   }
 
   private readonly _selectedAlgorithm = signal<Algorithms>(Algorithms.Astar);
+
   get selectedAlgorithmAsSignal(): Signal<Algorithms> {
     return this._selectedAlgorithm.asReadonly();
   }

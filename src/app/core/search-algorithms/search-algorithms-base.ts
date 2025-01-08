@@ -2,10 +2,11 @@ import { Cell, CellIcon, Heuristic, MazeMatrix, Position } from '@models';
 import { equalPositions, euclideanDistance } from '@utils';
 
 export class SearchAlgorithmBase {
-  /** Method that will return a numeric relationship between two cells
+  /**
+   * Method that will return a numeric relationship between two cells
    * @example
    * Manhattan distance or Euclidean distance can represent the numerical relationship
-   * between two cells.
+   * between two cells using a calculation to measure the distance between them.
    */
   protected _heuristic!: Heuristic;
 
@@ -54,8 +55,11 @@ export class SearchAlgorithmBase {
   }
 
   /**
-   * Format the path backtracking the target cell to its parent, recursively,
+   * Format the path backtracking the target cell to its parent,
    * until it finds the source cell (has no parent cell, parent === null)
+   *
+   * @param target: The {x, y} pair that represents the target position.
+   * @return An array of {x, y} pairs representing a maze path.
    */
   protected backtrackingPath(target: Cell): Position[] {
     const path: Position[] = [];
@@ -70,10 +74,24 @@ export class SearchAlgorithmBase {
     return path.reverse();
   }
 
+  /**
+   * Verifies if an {x, y} pair is the target position.
+   *
+   * @returns `true` if is the target, `false` otherwise.
+   */
   protected isTarget({ x, y }: Position): boolean {
     return this._maze[x][y] === CellIcon.Target;
   }
 
+  /**
+   * Verifies if an cell, can be accessed, checking if the cell is on the maze boundaries, if it is nota a Wall
+   * and if the cell was not visited before.
+   *
+   * @param cell The {x, y} pair from the cell that will be checked.
+   * @param cellsAlreadyVisited set of `Cell` type with the cells that were already visited by the algorithm.
+   *
+   * @return `true` if the cell passed can be visited, `false` otherwise.
+   */
   protected canAccessCell({ x, y }: Position, cellsAlreadyVisited: Cell[] = []): boolean {
     return (
       x >= 0 &&
@@ -85,6 +103,10 @@ export class SearchAlgorithmBase {
     );
   }
 
+  /**
+   * Runs the search algorithm.
+   * @remarks This method must be implemented in the algorithm class.
+   */
   run(): void {
     throw new Error('run() method must be implemented!');
   }

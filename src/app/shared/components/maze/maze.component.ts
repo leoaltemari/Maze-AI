@@ -3,7 +3,7 @@ import { Component, inject, input, OnInit } from '@angular/core';
 
 import { CellComponent } from '@components/cell/cell.component';
 import { Position } from '@models';
-import { MazeBuilderService } from '@services';
+import { MazeBuilderService, MazeInteractionService } from '@services';
 
 @Component({
   selector: 'app-maze',
@@ -16,14 +16,18 @@ import { MazeBuilderService } from '@services';
 })
 export class MazeComponent implements OnInit {
   /**
-   * Dimension sets the number of cells the maze will have on the rows and columns.
+   * Sets the number of cells the maze will have on the rows and columns.
+   *
    * @example
    * A dimension of 5 means that the maze will have 5 rows with 5 cells each (total of 25 cells),
    * as a matrix [5]x[5].
+   *
+   * @default 16
    * */
-  readonly dimension = input(32, { alias: 'size' });
+  readonly dimension = input(16, { alias: 'size' });
 
   private readonly mazeBuilderService = inject(MazeBuilderService);
+  private readonly mazeInteractionService = inject(MazeInteractionService);
 
   protected readonly mazeCells = this.mazeBuilderService.mazeMatrixAsSignal;
 
@@ -32,6 +36,6 @@ export class MazeComponent implements OnInit {
   }
 
   changeCellType(position: Position): void {
-    this.mazeBuilderService.changeCellTypeOnAction(position);
+    this.mazeBuilderService.turnCellInto(position, this.mazeInteractionService.turnCellInto);
   }
 }

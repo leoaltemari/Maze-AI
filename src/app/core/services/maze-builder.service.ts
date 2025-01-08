@@ -1,26 +1,23 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 
 import { Cell, CellIcon, CellType, Maze, Position, TurnCellInto } from '@models';
-import { MazeInteractionService } from '@services';
 
 @Injectable()
 export class MazeBuilderService {
-  private readonly mazeInteractionService = inject(MazeInteractionService);
-
-  /** Store maze matrix where each matrix position matches a cell type
+  /**
+   * Stores maze matrix where each matrix position matches a cell type.
+   *
    * @example
    * mazeMatrix[0][2] is the soruce, mazeMatrix[0][7] is the target.
    * --#--***--
    * --*--*-*--
    * --****-*--
    * --*----*--
-   * --*****$--  */
+   * --*****$--
+   */
   private readonly _mazeMatrix = signal<Maze>([]);
   get mazeMatrixAsSignal(): Signal<Maze> {
     return this._mazeMatrix.asReadonly();
-  }
-  get mazeMatrix(): Maze {
-    return this._mazeMatrix();
   }
   set mazeMatrix(cells: Maze) {
     this._mazeMatrix.set(cells);
@@ -31,24 +28,26 @@ export class MazeBuilderService {
   }
 
   private _sourcePos: Position | undefined;
-  get sourcePos() {
+  get sourcePos(): Position | undefined {
     return this._sourcePos;
   }
   private _targetPos: Position | undefined;
-  get targetPos() {
+  get targetPos(): Position | undefined {
     return this._targetPos;
   }
 
-  isPath = (pos: Position) => this.cellIsFromType(pos, CellType.Path);
-  isWall = (pos: Position) => this.cellIsFromType(pos, CellType.Wall);
-  isSource = (pos: Position) => this.cellIsFromType(pos, CellType.Source);
-  isTarget = (pos: Position) => this.cellIsFromType(pos, CellType.Target);
-
-  private cellIsFromType({ x, y }: Position, type: CellType): boolean {
-    return this.mazeMatrix[x][y].type === type;
-  }
-
+  /**
+   * Method to change the cell type into the new type passed.
+   *
+   * @param cellPos {x, y} pair from the cell that will be changed the type.
+   * @param newType The new type that will be asigned into the cell.
+   */
   updateCellType({ x, y }: Position, newType: CellType): void {
+    /** Only changes if it is a new type */
+    if (this._mazeMatrix()[x][y].type === newType) {
+      return;
+    }
+
     this._mazeMatrix.update((matrix) => {
       matrix[x][y].type = newType;
       return matrix;
@@ -57,7 +56,8 @@ export class MazeBuilderService {
 
   /**
    * Method to fill up the initial maze matrix with empty cells.
-   * @param dimension number of rows and columns that the maze will have (always a quadratic form matrix).
+   *
+   * @param size Number of rows and columns that the maze will have (the maze will always be a square matrix).
    */
   buildMaze(size: number): void {
     const maze: Maze = [];
@@ -74,12 +74,12 @@ export class MazeBuilderService {
   }
 
   /**
-   * Clear all cells from maze that are from a certain type.
+   * Clears all cells in the maze that are the same as a specific type.
    * @param type Type of the cell that will be cleard from the maze.
    */
   clear(type: CellType): void {
     this._mazeMatrix.update((mazeMatrix) => {
-      mazeMatrix.forEach((matrixRows, i) => {
+      mazeMatrix.forEach((matrixRows) => {
         matrixRows.forEach((cell) => {
           if (cell.type === type) {
             cell.type = CellType.Empty;
@@ -91,11 +91,16 @@ export class MazeBuilderService {
     });
   }
 
-  changeCellTypeOnAction(cellPosition: Position): void {
-    switch (this.mazeInteractionService.turnCellInto) {
+  turnCellInto(cellPosition: Position, newCellType: TurnCellInto): void {
+    switch (newCellType) {
       case TurnCellInto.Wall:
-        const newType = this.isWall(cellPosition) ? CellType.Empty : CellType.Wall;
-        this.updateCellType(cellPosition, newType);
+        const { x, y } = cellPosition;
+        const { type: oldType } = this._mazeMatrix()[x][y];
+
+        this.updateCellType(
+          cellPosition,
+          oldType === CellType.Wall ? CellType.Empty : CellType.Wall,
+        );
         break;
 
       case TurnCellInto.Source:
