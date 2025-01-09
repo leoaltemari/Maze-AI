@@ -1,27 +1,107 @@
-# MazeAi
+# Maze AI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+<div style="display:flex; justify-content: center; gap: 16px;">
+  <a href="https://www.linkedin.com/in/leonardo-altemari-008a8017b/">
+    <img alt="leonardo-altemari" src="https://img.shields.io/badge/made%20by-Leonardo%20Altemari-brightgreen" />
+  </a>
 
-## Development server
+  <a href="https://github.com/leoaltemari/tokenEvents-API/blob/development/LICENSE">
+    <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen" />
+  </a>
+</div>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### 🚀 Description
 
-## Code scaffolding
+<div style="display:flex; justify-content: center; margin-bottom: 16px;">
+  <img alt="License" width="600px" src="./public/github/ui-example.png" />
+</div>
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This is an web UI that creates an way to visualize some path finder algorithim trough a maze map, where the user can interacts to it, selectin the source point, the target point and place walls on this maze to see how each algorithm deals with it to find the correct path.
 
-## Build
+At the moment we have just five path finding algorithms implemented, they are:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- [A\*](https://en.wikipedia.org/wiki/A*_search_algorithm)
+- [DFS](https://en.wikipedia.org/wiki/Depth-first_search)
+- [BFS](https://en.wikipedia.org/wiki/Breadth-first_search)
+- [Best First Search](https://en.wikipedia.org/wiki/Best-first_search)
+- [Hill Climb](https://www.geeksforgeeks.org/introduction-hill-climbing-artificial-intelligence/)
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 📜 Table of Contents
 
-## Running end-to-end tests
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
+## 🔥 Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Install Angular CLI globally if not already installed:
+   ```bash
+   npm install -g @angular/cli
+   ```
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/leoaltemari/Maze-AI.git
+   ```
+3. Navigate to the project directory:
+   ```bash
+   cd Maze-AI
+   ```
+4. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+---
+
+## 🌐 Usage
+
+1. Run the development server:
+   ```bash
+   ng serve
+   ```
+2. Open your browser and navigate to:
+   ```
+   http://localhost:4200
+   ```
+
+---
+
+## 👥 Contributing
+
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feat/feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Description of changes"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feat/feature-name
+   ```
+5. Create a pull request.
+
+---
+
+## 🔐 License
+
+[MIT License](LICENSE)
+
+---
+
+## 📱 Contact
+
+For questions or support, contact:
+
+- **Author Name**: Leonardo Altemari Nogueira
+- **Email**: leo.altemari@gmail.com
+
+---
