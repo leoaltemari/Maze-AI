@@ -74,7 +74,7 @@ export class MazeBuilderService {
   }
 
   /**
-   * Clears all cells in the maze that are the same as a specific type.
+   * Clears all cells in the maze from an specific type.
    * @param type Type of the cell that will be cleard from the maze.
    */
   clear(type: CellType): void {
@@ -89,6 +89,17 @@ export class MazeBuilderService {
 
       return mazeMatrix;
     });
+  }
+
+  clearMaze(): void {
+    this.clear(CellType.Wall);
+    this.clear(CellType.Path);
+    this.clear(CellType.Expanded);
+    this.clear(CellType.Source);
+    this.clear(CellType.Target);
+
+    this._sourcePos = undefined;
+    this._targetPos = undefined;
   }
 
   turnCellInto(cellPosition: Position, newCellType: TurnCellInto): void {

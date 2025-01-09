@@ -35,12 +35,7 @@ export class SideBarComponent {
     this.mazeBuilderService.clear(CellType.Path);
     this.mazeBuilderService.clear(CellType.Expanded);
   };
-  protected clearAll: VoidFunction = () => {
-    this.clearWalls();
-    this.clearPath();
-    this.mazeBuilderService.clear(CellType.Source);
-    this.mazeBuilderService.clear(CellType.Target);
-  };
+  protected clearAll: VoidFunction = () => this.mazeBuilderService.clearMaze();
 
   selectTurnCellInto(option: TurnCellInto): void {
     this.mazeInteractionService.turnCellInto = option;

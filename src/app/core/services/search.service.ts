@@ -14,7 +14,13 @@ export class SearchService {
 
   private _pathGenerationTimeout: ReturnType<typeof setTimeout>[] = [];
 
-  private updateMazeWith(cells: Position[], type: CellType) {
+  /**
+   * Updates the maze cells that are passed as parametter with the cell type selected.
+   *
+   * @param cells {x, y} pair array containing the cells that will be changed into the new type.
+   * @param type Path or Expanded type to updade the cells.
+   */
+  private updateMazeWith(cells: Position[], type: CellType.Path | CellType.Expanded): void {
     const delay = type === CellType.Path ? BUILD_PATH_DELAY : BUILD_EXPANDED_DELAY;
 
     cells.forEach((path, i) => {

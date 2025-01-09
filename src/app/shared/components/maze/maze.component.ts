@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnInit } from '@angular/core';
 
 import { CellComponent } from '@components/cell/cell.component';
-import { CellType, Position, typeToBackgroundColorMap } from '@models';
+import { Position } from '@models';
 import { MazeBuilderService, MazeInteractionService } from '@services';
 
 @Component({
@@ -31,15 +31,6 @@ export class MazeComponent implements OnInit {
   private readonly mazeInteractionService = inject(MazeInteractionService);
 
   protected readonly mazeCells = this.mazeBuilderService.mazeMatrixAsSignal;
-
-  protected readonly legendItems = [
-    { label: 'Empty', color: typeToBackgroundColorMap[CellType.Empty] },
-    { label: 'Wall', color: typeToBackgroundColorMap[CellType.Wall] },
-    { label: 'Source', color: typeToBackgroundColorMap[CellType.Source] },
-    { label: 'Target', color: typeToBackgroundColorMap[CellType.Target] },
-    { label: 'Path', color: typeToBackgroundColorMap[CellType.Path] },
-    { label: 'Expanded', color: typeToBackgroundColorMap[CellType.Expanded] },
-  ];
 
   ngOnInit(): void {
     this.mazeBuilderService.buildMaze(this.dimension());

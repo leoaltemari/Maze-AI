@@ -1,13 +1,4 @@
-<main class="d-flex flex-column align-items-center">
-  <article class="maze-legend d-flex bg-grey-4 px-4 py-3 mb-5">
-    @for (legend of legendItems; track $index; let last = $last) {
-      <div class="d-flex align-items-center" [ngClass]="{ 'mr-4': !last }">
-        <div class="cell mr-3" [ngClass]="legend.color"></div>
-        <span class="text-white">{{ legend.label }}</span>
-      </div>
-    }
-  </article>
-
+<main>
   <!-- Rows -->
   @for (row of mazeCells(); track $index) {
     <div class="d-flex">

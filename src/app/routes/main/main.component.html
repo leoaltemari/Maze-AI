@@ -1,4 +1,13 @@
 <app-side-bar></app-side-bar>
 <div class="content-wrapper">
-  <app-maze [size]="24"></app-maze>
+  <app-maze [size]="20"></app-maze>
+
+  <article class="maze-legend d-flex bg-grey-4 px-4 py-3">
+    @for (legend of legendItems; track $index; let last = $last) {
+      <div class="d-flex align-items-center" [ngClass]="{ 'mr-4': !last }">
+        <div class="cell mr-3" [ngClass]="legend.color"></div>
+        <span class="text-white">{{ legend.label }}</span>
+      </div>
+    }
+  </article>
 </div>

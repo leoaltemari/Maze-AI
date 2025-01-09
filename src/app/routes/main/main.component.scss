@@ -2,4 +2,18 @@
   width: 100%;
   min-height: calc(100vh - 24px);
   margin-left: 256px;
+  position: relative;
+}
+
+.maze-legend {
+  border-radius: 12px;
+  position: absolute;
+  bottom: 32px;
+  left: calc(50% - 256px);
+  transform: translate(calc(-50% + 256px), 0);
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
 }
