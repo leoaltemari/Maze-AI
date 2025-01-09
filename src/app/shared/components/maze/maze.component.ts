@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input, OnInit } from '@angular/core';
 
 import { CellComponent } from '@components/cell/cell.component';
-import { Position } from '@models';
+import { CellType, Position, typeToBackgroundColorMap } from '@models';
 import { MazeBuilderService, MazeInteractionService } from '@services';
 
 @Component({
@@ -10,9 +10,10 @@ import { MazeBuilderService, MazeInteractionService } from '@services';
   standalone: true,
   imports: [CommonModule, CellComponent],
   host: {
-    class: 'w-100 h-100 bg-grey-3 centered-items',
+    class: 'w-100 h-100 pb-4 bg-grey-3 centered-items',
   },
   templateUrl: './maze.component.html',
+  styleUrl: './maze.component.scss',
 })
 export class MazeComponent implements OnInit {
   /**
@@ -30,6 +31,15 @@ export class MazeComponent implements OnInit {
   private readonly mazeInteractionService = inject(MazeInteractionService);
 
   protected readonly mazeCells = this.mazeBuilderService.mazeMatrixAsSignal;
+
+  protected readonly legendItems = [
+    { label: 'Empty', color: typeToBackgroundColorMap[CellType.Empty] },
+    { label: 'Wall', color: typeToBackgroundColorMap[CellType.Wall] },
+    { label: 'Source', color: typeToBackgroundColorMap[CellType.Source] },
+    { label: 'Target', color: typeToBackgroundColorMap[CellType.Target] },
+    { label: 'Path', color: typeToBackgroundColorMap[CellType.Path] },
+    { label: 'Expanded', color: typeToBackgroundColorMap[CellType.Expanded] },
+  ];
 
   ngOnInit(): void {
     this.mazeBuilderService.buildMaze(this.dimension());

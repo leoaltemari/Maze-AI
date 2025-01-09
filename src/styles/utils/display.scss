@@ -1,5 +1,9 @@
 .d-flex {
   display: flex !important;
+
+  &.flex-column {
+    flex-direction: column;
+  }
 }
 
 .d-none {

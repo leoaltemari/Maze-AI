@@ -17,12 +17,12 @@ export enum CellIcon {
 }
 
 export const typeToBackgroundColorMap: Record<CellType, string> = {
+  [CellType.Empty]: 'bg-grey',
+  [CellType.Wall]: 'bg-grey-3',
   [CellType.Source]: 'bg-green',
   [CellType.Target]: 'bg-red',
-  [CellType.Expanded]: 'bg-light-green',
-  [CellType.Wall]: 'bg-grey-3',
   [CellType.Path]: 'bg-blue',
-  [CellType.Empty]: 'bg-grey',
+  [CellType.Expanded]: 'bg-light-green',
 };
 
 /** Indicates on which type the cell will turn when the user clicks on it */
