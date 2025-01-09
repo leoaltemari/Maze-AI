@@ -9,7 +9,6 @@ import { CellType, Position, typeToBackgroundColorMap } from '@models';
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './cell.component.html',
-  styleUrl: './cell.component.scss',
 })
 export class CellComponent {
   readonly type = input.required<CellType>();
