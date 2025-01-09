@@ -1,6 +1,6 @@
 # Maze AI
 
-<div style="display:flex; justify-content: center; gap: 16px;">
+<div align="center">
   <a href="https://www.linkedin.com/in/leonardo-altemari-008a8017b/">
     <img alt="leonardo-altemari" src="https://img.shields.io/badge/made%20by-Leonardo%20Altemari-brightgreen" />
   </a>
@@ -12,7 +12,7 @@
 
 ### 🚀 Description
 
-<div style="display:flex; justify-content: center; margin-bottom: 16px;">
+<div style="margin-bottom: 16px;" align="center">
   <img alt="License" width="600px" src="./public/github/ui-example.png" />
 </div>
 
