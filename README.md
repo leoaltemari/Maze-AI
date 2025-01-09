@@ -6,7 +6,7 @@
   </a>
 
   <a href="https://github.com/leoaltemari/tokenEvents-API/blob/development/LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen" />
+    <img alt="Application layout image" src="https://img.shields.io/badge/license-MIT-brightgreen" />
   </a>
 </div>
 
