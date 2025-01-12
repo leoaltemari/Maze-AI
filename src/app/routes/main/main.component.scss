@@ -1,6 +1,6 @@
 .content-wrapper {
   width: 100%;
-  min-height: calc(100vh - 24px);
+  min-height: 100vh;
   margin-left: 256px;
   position: relative;
 }
@@ -9,9 +9,17 @@
   border-radius: 12px;
   position: absolute;
   bottom: 32px;
-  left: calc(50% - 256px);
-  transform: translate(calc(-50% + 256px), 0);
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: fit-content;
+
+  @media (max-width: 990px) {
+    display: none !important;
+  }
 }
+
+
 
 .cell {
   width: 28px;

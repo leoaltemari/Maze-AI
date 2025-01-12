@@ -3,7 +3,15 @@ $box-color: #2D2F39;
 :host {
   position: fixed;
   width: 208px;
-  height: 100vh;
+  height: calc(100vh - 48px);
+  overflow: scroll;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .ai-icon {
     width: 64px;

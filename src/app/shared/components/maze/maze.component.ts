@@ -10,10 +10,9 @@ import { MazeBuilderService, MazeInteractionService } from '@services';
   standalone: true,
   imports: [CommonModule, CellComponent],
   host: {
-    class: 'w-100 h-100 pb-4 bg-grey-3 centered-items',
+    class: 'w-100 h-100 bg-grey-3 centered-items',
   },
   templateUrl: './maze.component.html',
-  styleUrl: './maze.component.scss',
 })
 export class MazeComponent implements OnInit {
   /**
