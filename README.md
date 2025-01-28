@@ -13,8 +13,10 @@
 ### 🚀 Description
 
 <div style="margin-bottom: 16px;" align="center">
-  <img alt="License" width="600px" src="./public/github/ui-example.png" />
+  <img alt="" width="600px" src="./public/github/ui-example.png" />
 </div>
+
+https://leoaltemari.github.io/maze-ai-pages/
 
 This is an web UI that creates an way to visualize some path finder algorithim trough a maze map, where the user can interacts to it, selectin the source point, the target point and place walls on this maze to see how each algorithm deals with it to find the correct path.
 
