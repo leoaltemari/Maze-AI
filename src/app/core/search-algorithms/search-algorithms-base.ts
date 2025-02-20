@@ -1,5 +1,5 @@
 import { Cell, CellIcon, Heuristic, MazeMatrix, Position } from '@models';
-import { equalPositions, euclideanDistance } from '@utils';
+import { euclideanDistance } from '@utils';
 
 export class SearchAlgorithmBase {
   /**
@@ -47,11 +47,9 @@ export class SearchAlgorithmBase {
     return this._path.slice(1, this._path.length - 1);
   }
 
-  /** Returns cells that was visited and are not on the path */
+  /** Returns cells that were visited */
   get expanded(): Position[] {
-    return this._expandedCells.filter(
-      (expanded) => !this._path.some((path) => equalPositions(expanded, path)),
-    );
+    return this._expandedCells.slice(1, this._expandedCells.length - 1);
   }
 
   /**

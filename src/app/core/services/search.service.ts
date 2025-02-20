@@ -4,13 +4,12 @@ import { AlgorithmObj, Algorithms, CellType, Position } from '@models';
 import { AStar, BestFS, BFS, DFS, HillClimb } from '@search-algorithms';
 import { MazeBuilderService, MazeInteractionService } from '@services';
 
-const BUILD_PATH_DELAY = 80;
-const BUILD_EXPANDED_DELAY = 10;
-
 @Injectable()
 export class SearchService {
   private readonly mazeBuilderService = inject(MazeBuilderService);
   private readonly mazeInteractionService = inject(MazeInteractionService);
+
+  private readonly BUILD_EXPANDED_DELAY = 30;
 
   private _pathGenerationTimeout: ReturnType<typeof setTimeout>[] = [];
 
@@ -20,12 +19,17 @@ export class SearchService {
    * @param cells {x, y} pair array containing the cells that will be changed into the new type.
    * @param type Path or Expanded type to updade the cells.
    */
-  private updateMazeWith(cells: Position[], type: CellType.Path | CellType.Expanded): void {
-    const delay = type === CellType.Path ? BUILD_PATH_DELAY : BUILD_EXPANDED_DELAY;
-
+  private updateMazeWith(
+    cells: Position[],
+    type: CellType.Path | CellType.Expanded,
+    offset = 0,
+  ): void {
     cells.forEach((path, i) => {
       this._pathGenerationTimeout.push(
-        setTimeout(() => this.mazeBuilderService.updateCellType(path, type), delay * (i + 1)),
+        setTimeout(
+          () => this.mazeBuilderService.updateCellType(path, type),
+          this.BUILD_EXPANDED_DELAY * (offset + i + 1),
+        ),
       );
     });
   }
@@ -64,6 +68,6 @@ export class SearchService {
     searchAlgorithm.run();
 
     this.updateMazeWith(searchAlgorithm.expanded, CellType.Expanded);
-    this.updateMazeWith(searchAlgorithm.path, CellType.Path);
+    this.updateMazeWith(searchAlgorithm.path, CellType.Path, searchAlgorithm.expanded.length);
   }
 }
