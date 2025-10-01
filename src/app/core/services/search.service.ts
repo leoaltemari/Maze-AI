@@ -34,7 +34,7 @@ export class SearchService {
     });
   }
 
-  private createAlgorithmObject(): AlgorithmObj {
+  private searchAlgorithmFactory(): AlgorithmObj {
     const { sourcePos, targetPos, mazeAsStringMatrix } = this.mazeBuilderService;
 
     switch (this.mazeInteractionService.selectedAlgorithm) {
@@ -64,7 +64,7 @@ export class SearchService {
       return;
     }
 
-    const searchAlgorithm: AlgorithmObj = this.createAlgorithmObject();
+    const searchAlgorithm: AlgorithmObj = this.searchAlgorithmFactory();
     searchAlgorithm.run();
 
     this.updateMazeWith(searchAlgorithm.expanded, CellType.Expanded);
