@@ -8,7 +8,14 @@ import { CellType, Position, typeToBackgroundColorMap } from '@models';
   standalone: true,
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './cell.component.html',
+  template: `
+    <div
+      class="cell"
+      title="{{ position().x }} , {{ position().y }}"
+      [ngClass]="backgroundClass()"
+      (click)="cellOnClick.emit(position())"
+    ></div>
+  `,
 })
 export class CellComponent {
   readonly type = input.required<CellType>();
